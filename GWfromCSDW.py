@@ -12,7 +12,6 @@ import scipy.integrate as spi
 import scipy.optimize as spo
 import scipy.special as sps
 import os
-import multiprocessing
 # Get the directory of the current Python script
 current_directory = os.path.dirname(os.path.abspath("__file__"))
 
@@ -83,6 +82,7 @@ def OmegaGWcalcDWCS(Lambda, v, freq, k):
 
     def OmegaintegrandDWCS(tt):
         tk = tiDWCS(tt)
+        print("This is tk = ", tk)
         Ogintegrand = (ascalef(tt) / ascalef(t0))**5 * F * Ceff(tk) / (alpha * tk**4.) * \
                       (ascalef(tk) / ascalef(tt))**3 * (Pk * xi * k / f) * \
                       (1. + xi * k / (2 * np.pi * Rc * f) * (ascalef(tt) / ascalef(t0))) * \
@@ -90,7 +90,7 @@ def OmegaGWcalcDWCS(Lambda, v, freq, k):
                       (Gammaint(alpha * tk / (2 * np.pi * Rc)) * Gmu + alpha * (1 + alpha * tk / (2 * np.pi * Rc))) \
                       if (tk != 0 and tstar > tk) else 0
         return Ogintegrand
-    ttlist = np.linspace(np.log(tF), np.log(t0), num = 100)
+    ttlist = np.linspace(np.log(tF), np.log(t0), num = 5)
     Omegalist = np.array([0.] * len(ttlist))
     for i in range(len(ttlist)):
         Omegalist[i] = (OmegaintegrandDWCS(np.exp(ttlist[i]))) 
@@ -108,6 +108,8 @@ def OmegaGWcalcDWCS(Lambda, v, freq, k):
     else:
         return 0
 
+print(OmegaGWcalcDWCS(1e13, 246, 1, 1))
+'''
 run = 1
 factor = 5
 flist = np.logspace(-9, 5, num = 14)
@@ -130,3 +132,4 @@ plt.loglog(flist, results)
 plt.xlabel('f [Hz]')
 plt.ylabel('$\Omega_{GW}h^2$')
 plt.show()
+'''
