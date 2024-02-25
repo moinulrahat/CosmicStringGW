@@ -1,10 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Feb 23 10:57:55 2024
+This script defines the essential functions for calculating GW spectrum for the
+hybrid defect called domain walls bounded by cosmic strings. The parameter values
+and the formula are taken from section VII of the following reference:
+    
+\bibitem{Dunsky:2021tih}
+D.~I.~Dunsky, A.~Ghoshal, H.~Murayama, Y.~Sakakihara and G.~White,
+%``GUTs, hybrid topological defects, and gravitational waves,''
+Phys. Rev. D \textbf{106}, no.7, 075030 (2022)
+doi:10.1103/PhysRevD.106.075030
+[arXiv:2111.08750 [hep-ph]].
 
-@author: rahat
-
-dwboundedbycs.py
 """
 
 from scipy.interpolate import interp1d
@@ -13,22 +19,21 @@ import sympy as sp
 import scipy.integrate as spi
 import scipy.optimize as spo
 import scipy.special as sps
-#import os
-#import multiprocessing
 
 class DWBoundedbyCS:
     def __init__(self):
-        self.cmitoGeV = 1.98e-14
-        self.HztoGeV = 6.58e-25
-        self.G = 6.70883e-39
-        self.h = 0.679
-        self.rhocrit = 1.053672e-5 * self.h**2 * self.cmitoGeV**3
-        self.t0 = 13.8e9 * 365.25 * 24 * 60 * 60 / self.HztoGeV
-        self.tF = 1e-22 / self.HztoGeV
-        self.zeq = 3360
-        self.teq = self.t0 / (1+self.zeq) ** (3./2)
-        self.CeffR = 5.7
-        self.CeffM = 0.5
+        # first we initialize the constants
+        self.cmitoGeV = 1.98e-14 # converts 1/cm to GeV
+        self.HztoGeV = 6.58e-25 # converts 1/s to GeV
+        self.G = 6.70883e-39 # Newton's constant
+        self.h = 0.679 
+        self.rhocrit = 1.053672e-5 * self.h**2 * self.cmitoGeV**3 # critical energy density
+        self.t0 = 13.8e9 * 365.25 * 24 * 60 * 60 / self.HztoGeV # present time
+        self.tF = 1e-22 / self.HztoGeV # initial string formation time
+        self.zeq = 3360 # z at matter-radiation equality
+        self.teq = self.t0 / (1+self.zeq) ** (3./2) # time at matter-radiation equality
+        self.CeffR = 5.7 # Ceff at radiation-dominated era
+        self.CeffM = 0.5 # Ceff at matter-dominated era
         self.F = 0.1
         self.alpha = 0.1
         self.GammaS = 50
@@ -40,13 +45,14 @@ class DWBoundedbyCS:
         self.adata = np.loadtxt("a_evolution_in_Standard_cosmology.dat")
         self.ax = self.adata[:, 0]
         self.ay = self.adata[:, 1]
-        self.ascalef = interp1d(self.ax, self.ay, kind='linear')
+        self.ascalef = interp1d(self.ax, self.ay, kind='linear') # interpolation of scale factor
         self.q, self.r, self.s = self.Gamma_interp()
     
     def Ceff(self, t):
         return self.CeffR if t < self.teq else self.CeffM
     
-    # define Gamma for the hybrid defect
+    # define Gamma_s for the hybrid defect fitting the curve of Fig. 14
+    # of the above reference
     def Gamma_interp(self):
         x, q, r, s = sp.symbols('x q r s')
         Gammainterp = sp.lambdify(x, q*x**2 + r*x + s)
@@ -60,7 +66,7 @@ class DWBoundedbyCS:
     def Gamma_s(self, r_over_rc):
         return self.q * r_over_rc**2 + self.r * r_over_rc + self.s
     
-    # calculate the time when a loop was created
+    # calculate the time when a loop emitting GW at time tt was created
     def tiDWCS(self, Gmu, tt, Rc, k, f):
         integrand = lambda lp: (1 + lp / (2*np.pi*Rc)) / self.Gamma_s(lp / (2*np.pi*Rc))
         equation = lambda tik: spi.quad(integrand, (self.xi * k) / f * \
@@ -74,6 +80,7 @@ class DWBoundedbyCS:
         # The loops being created at tt must have larger size than the loops \
         # already emitting GW at tt .
     
+    # calculate the integrand
     def OmegaintegrandDWCS(self, Gmu, tt, tstar, Rc, k, f):
         tk = self.tiDWCS(Gmu, tt, Rc, k, f)
         Pk = k ** (-4./3) / self.zeta_value
@@ -85,6 +92,7 @@ class DWBoundedbyCS:
                       if (tk != 0 and tstar > tk) else 0
         return Ogintegrand
     
+    # perform the integration to calculate the GW amplitude
     def OmegaGWcalcDWCS(self, Lambda, v, freq, k):
         Rc = Lambda ** 2 / v ** 3
         tDW = self.Mpl * self.Cc / v ** 2
@@ -99,7 +107,7 @@ class DWBoundedbyCS:
         Omegalist = np.array([0.] * len(ttlist))
         for i in range(len(ttlist)):
             Omegalist[i] = (self.OmegaintegrandDWCS(Gmu, np.exp(ttlist[i]), tstar, Rc, k, f)) 
-            
+           
         nonzero_indices = np.nonzero(Omegalist)[0]   
         Omegatable = np.log(np.array(Omegalist[nonzero_indices]))
         tttable = np.array(ttlist[nonzero_indices])
