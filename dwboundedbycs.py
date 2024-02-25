@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 This script defines the essential functions for calculating GW spectrum for the
 hybrid defect called domain walls bounded by cosmic strings. The parameter values
