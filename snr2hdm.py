@@ -7,7 +7,7 @@ A script to convert these results into latex table is also included at the end.
 import numpy as np
 import warnings
 import os
-from snrcalc import snr_all_interferometers
+from snrgeneric import snr_all_interferometers
 # Suppress all warnings
 warnings.filterwarnings("ignore") 
 
@@ -110,7 +110,9 @@ print("SNR for $v = 10^{15}$ GeV \n", snr_all_interferometers(f_list, Omega_list
 
 
 """
+------------------------------------------------------------------
 The following script can make a latex table from the above results
+------------------------------------------------------------------
 """
 # single dictionary
 def make_latex_table():

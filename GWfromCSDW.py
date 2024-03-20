@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Feb 21 10:44:13 2024
-
-@author: rahat
-"""
-
 from scipy.interpolate import interp1d
 import numpy as np
 import sympy as sp
