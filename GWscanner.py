@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 This script is designed to run in a cluster for parallelizing the computation
 over many k modes. If parallelization is not desired, use GWspectrumcalc.py
