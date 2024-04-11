@@ -1,2 +1,2 @@
-# 2HDM-hybrid-defects
-A repository for a project on gravitational wave signatures of a hybrid topological defect in the Two Higgs Double Model supplemented by a U(1) symmetry.
+# CosmicStringGW
+We introduce the public code CosmicStringGW that enables the calculation of gravitational waves from pure cosmic strings and hybrid topological defects involving cosmic strings. The current version includes the calculation of gravitational wave spectrum for pure gauged Nambu-Goto strings and "domain walls bounded by cosmic strings". Future updates will include global strings and other topological defects.
