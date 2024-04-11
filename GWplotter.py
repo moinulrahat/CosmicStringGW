@@ -152,7 +152,7 @@ plot_Lambda14() # GW spectrum for U(1) breaking at 10^{14} GeV, Z2 breaking at 2
 plot_Lambda15() # GW spectrum for U(1) breaking at 10^{15} GeV, Z2 breaking at 246 GeV
 
 # plot legend
-line_blank = mlines.Line2D([], [], color='blue', linestyle=' ', linewidth=0.5, label=r'$v = 246$ GeV')
+line_blank = mlines.Line2D([], [], color='blue', linestyle=' ', linewidth=0.5, label=r'$v_{\mathrm{SM}} = 246$ GeV')
 line_purple = mlines.Line2D([], [], color='purple', linestyle='-', linewidth=1.5, label=r'$v_M = 10^{12}\ {\rm GeV}$')
 line_blue = mlines.Line2D([], [], color='darkblue', linestyle='-', linewidth=1.5, label=r'$v_M = 10^{13}\ {\rm GeV}$')
 line_orange = mlines.Line2D([], [], color='orange', linestyle='-', linewidth=1.5, label=r'$v_M = 10^{{14}}\ {\rm GeV}$')
