@@ -153,10 +153,10 @@ plot_Lambda15() # GW spectrum for U(1) breaking at 10^{15} GeV, Z2 breaking at 2
 
 # plot legend
 line_blank = mlines.Line2D([], [], color='blue', linestyle=' ', linewidth=0.5, label=r'$v_{\mathrm{SM}} = 246$ GeV')
-line_purple = mlines.Line2D([], [], color='purple', linestyle='-', linewidth=1.5, label=r'$v_M = 10^{12}\ {\rm GeV}$')
-line_blue = mlines.Line2D([], [], color='darkblue', linestyle='-', linewidth=1.5, label=r'$v_M = 10^{13}\ {\rm GeV}$')
-line_orange = mlines.Line2D([], [], color='orange', linestyle='-', linewidth=1.5, label=r'$v_M = 10^{{14}}\ {\rm GeV}$')
-line_red = mlines.Line2D([], [], color='red', linestyle='-', linewidth=1.5, label=r'$v_M = 10^{15}\ {\rm GeV}$')
+line_purple = mlines.Line2D([], [], color='purple', linestyle='-', linewidth=1.5, label=r'$v_{\mathrm M} = 10^{12}\ {\rm GeV}$')
+line_blue = mlines.Line2D([], [], color='darkblue', linestyle='-', linewidth=1.5, label=r'$v_{\mathrm M} = 10^{13}\ {\rm GeV}$')
+line_orange = mlines.Line2D([], [], color='orange', linestyle='-', linewidth=1.5, label=r'$v_{\mathrm M} = 10^{{14}}\ {\rm GeV}$')
+line_red = mlines.Line2D([], [], color='red', linestyle='-', linewidth=1.5, label=r'$v_{\mathrm M} = 10^{15}\ {\rm GeV}$')
 plt.legend(handles=[line_blank, line_purple, line_blue, line_orange, line_red], loc = (0.74,0.045), framealpha=0.2, fontsize=8, edgecolor='black') #best upper-right
 
 # save the figure
